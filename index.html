@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Dinámico OptiProject</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* ------------------------------------------- */
+        /* ESTILOS BASE Y FONDO (CSS) */
+        /* ------------------------------------------- */
+        body { 
+            margin: 0; 
+            font-family: sans-serif; 
+            color: #f1f1f1; 
+            
+            /* PROPIEDADES PARA EL FONDO DE IMAGEN OSCURO */
+            background-image: url(IMG/image.png); 
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* CONTENEDOR PRINCIPAL: Centrado en la pantalla (Desktop View) */
+        .menu-overlay {
+            position: fixed; 
+            top: 0;
+            left: 0; 
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center; /* Centra horizontalmente */
+            align-items: center; /* Centra verticalmente */
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 1000;
+        }
+
+        /* CONTENEDOR FLEX PARA LAS TRES COLUMNAS */
+        .menu-central-flex {
+            display: flex; 
+            align-items: center; 
+        }
+        
+        /* ------------------------------------------- */
+        /* ESTILOS DE LOS MENÚS (Lateral, Central, Derecho) */
+        /* ------------------------------------------- */
+        .menu-lateral {
+            width: 180px; 
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            padding: 10px 0; 
+            margin-right: 15px; 
+            align-self: center; 
+        }
+        
+        .menu-contenedor {
+            width: 350px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            margin-right: 15px; 
+        }
+        
+        .menu-derecha {
+            width: 180px; 
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            padding: 10px 0;
+            align-self: center; 
+        }
+        
+        /* ------------------------------------------- */
+        /* ESTILOS ESPECÍFICOS DE ELEMENTOS INTERNOS */
+        /* ------------------------------------------- */
+
+        /* ESTILOS DEL LOGO (Ajustado para POSICIÓN FIJA SUPERIOR IZQUIERDA) */
+        .menu-logo {
+            /* Posicionamiento Absoluto dentro de .menu-overlay */
+            position: absolute; 
+            top: 0px; 
+            left: 550px;
+            text-align: left;
+            z-index: 1001; /* Aseguramos que esté por encima de todo */
+        }
+
+        .menu-logo img {
+            max-width: 250px; /* Tamaño del logo cuando está solo */
+            height: auto;
+            display: block; 
+        }
+        
+        /* ESTILOS DE BARRA DE BÚSQUEDA */
+        .menu-busqueda {
+             text-align: left; 
+        }
+        .menu-busqueda input { 
+            width: 100%; 
+            padding: 5px 10px; 
+            background: #333; 
+            border: 1px solid #444; 
+            color: #f1f1f1; 
+            border-radius: 6px; 
+            margin-bottom: 15px; 
+            box-sizing: border-box;
+        }
+
+        /* ESTILOS DE LISTAS */
+        .menu-titulo-lateral { font-size: 1.2em; font-weight: bold; padding: 10px 15px; margin-bottom: 10px; border-bottom: 1px solid #444; }
+        .lista-lateral { list-style: none; padding: 0; margin: 0; }
+        .lista-lateral li { padding: 10px 15px; cursor: pointer; border-left: 3px solid transparent; transition: background-color 0.2s, border-left 0.2s; }
+        .lista-lateral li:hover { background-color: rgba(121, 192, 255, 0.1); }
+        .lista-lateral li.seleccionado-lateral { background-color: rgba(121, 192, 255, 0.2); border-left: 3px solid #79c0ff; }
+        .menu-servidores { font-size: 0.8em; padding: 15px; border-top: 1px solid #444; margin-top: 15px; color: #ccc; }
+        .menu-titulo { font-weight: bold; font-size: 1.1em; padding-bottom: 10px; border-bottom: 1px solid #444; margin-bottom: 10px; }
+        .lista-opciones { list-style: none; padding: 0; margin: 0; max-height: 40vh; overflow-y: auto; }
+        .lista-opciones li { 
+            padding: 10px 0; 
+            border-bottom: 1px solid #3a3a3a; 
+            display: flex; 
+            align-items: center; 
+            cursor: pointer; 
+            transition: background-color 0.2s, border-left 0.2s, box-shadow 0.3s; 
+        }
+        .lista-opciones li:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 10px rgba(121, 192, 255, 0.3); 
+        }
+        
+        /* ESTILO PARA LOS ÍCONOS */
+        .lista-opciones li i {
+            margin-right: 10px; 
+            color: #79c0ff; 
+        }
+
+        .lista-opciones li a { color: #f1f1f1; text-decoration: none; flex-grow: 1; }
+        .lista-opciones li.seleccionado { 
+            border-left: 4px solid #79c0ff; 
+            background-color: rgba(121, 192, 255, 0.1); 
+            padding-left: 6px; 
+            box-shadow: 0 0 5px rgba(121, 192, 255, 0.4); 
+        }
+        .opciones-seccion.oculto { display: none; }
+        .botones-pie { display: flex; gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px solid #444; }
+        .boton-accion { text-decoration: none; padding: 12px; border-radius: 6px; color: #fff; text-align: center; }
+        .boton-accion.principal { flex-grow: 1; background-color: #4a6a6a; }
+        .boton-accion.secundario { width: 120px; background-color: #335050; }
+        
+        /* ESTILOS DE ETIQUETAS/STICKERS */
+        .etiqueta { 
+            font-size: 0.7em; 
+            padding: 2px 5px; 
+            border-radius: 4px; 
+            margin-left: 10px; 
+            font-weight: bold; 
+            background-color: #a4e0a4; /* Verde claro para NUEVO */
+            color: #000; 
+        }
+        .etiqueta.recomendado { 
+            background-color: #ffcc00; /* Amarillo/Dorado para MOD/RECOMENDADO */
+        }
+        /* ESTILO: Para destacar archivos GRATIS */
+        .etiqueta.gratis {
+            background-color: #79c0ff; /* Azul claro */
+            color: #000;
+        }
+
+        .menu-titulo-derecha { font-size: 1.1em; font-weight: bold; padding: 10px 15px; margin-bottom: 10px; border-bottom: 1px solid #444; }
+        .lista-derecha { list-style: none; padding: 0; margin: 0; font-size: 0.9em; }
+        .lista-derecha li { padding: 8px 15px; cursor: pointer; transition: background-color 0.2s; }
+        .lista-derecha li:hover { background-color: rgba(255, 204, 0, 0.1); }
+        .pie-derecha { padding: 10px 15px; margin-top: 15px; border-top: 1px solid #444; text-align: center; }
+        
+        /* ESTILOS DEL BOTÓN ADICIONAL (CONTACTO RÁPIDO) */
+        .boton-adicional { 
+            display: block; 
+            padding: 8px; 
+            background-color: #7d4469; 
+            color: #fff; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            font-size: 0.9em; 
+            /* Transición para el efecto hover suave */
+            transition: background-color 0.3s ease, color 0.3s ease; 
+        }
+        
+        /* HOVER DEL BOTÓN ADICIONAL (CONTACTO RÁPIDO) A AZUL */
+        .boton-adicional:hover {
+            background-color: #79c0ff; /* ¡AZUL! */
+            color: #000; /* Texto oscuro para mayor contraste */
+        }
+        
+        .redes-sociales { padding: 10px 15px; margin-top: 10px; border-top: 1px solid #444; font-size: 0.9em; }
+        .icono-red { display: flex; align-items: center; padding: 8px 0; color: #f1f1f1; text-decoration: none; transition: color 0.2s; }
+        .icono-red:hover { color: #79c0ff; }
+        .fa-whatsapp { color: #25d366; }
+        .fa-discord { color: #5865f2; }
+        .fa-tiktok { color: #ee1d52; }
+
+        /* ------------------------------------------- */
+        /* MEDIA QUERIES PARA RESPONSIVE (CELULAR) */
+        /* ------------------------------------------- */
+        @media (max-width: 900px) {
+
+            .menu-overlay {
+                position: absolute; 
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: auto; 
+                overflow-y: auto; 
+                padding: 20px 0; 
+                align-items: flex-start; 
+                justify-content: center;
+                background-color: rgba(0, 0, 0, 0.7); 
+            }
+
+            .menu-central-flex {
+                flex-direction: column; 
+                align-items: center; 
+                width: 100%;
+                margin-top: 50px; /* Para dejar espacio al logo en móvil */
+            }
+
+            .menu-lateral,
+            .menu-contenedor,
+            .menu-derecha {
+                width: 90% !important; 
+                margin-right: 0; 
+                margin-bottom: 20px; 
+                box-sizing: border-box; 
+            }
+            
+            .lista-opciones {
+                max-height: 50vh; 
+            }
+            
+            /* Ajuste para que el logo se quede en la esquina superior izquierda también en móvil */
+            .menu-logo {
+                position: fixed; /* O fixed para que se quede visible al hacer scroll */
+                top: 10px; 
+                left: 10px;
+            }
+            .menu-logo img {
+                max-width: 120px; /* Tamaño más pequeño en móvil */
+            }
+        }
+    </style>
+
+</head>
+<body>
+    
+    <div class="menu-overlay">
+        
+        <div class="menu-logo">
+            <img src="IMG/ideal.png" alt="Logo de OptiProject" class="logo-imagen">
+        </div>
+        <div class="menu-central-flex">
+            
+            <div class="menu-lateral">
+                <div class="menu-titulo-lateral">CATEGORIAS</div>
+                <ul class="lista-lateral" id="listaCategorias">
+                    <li class="seleccionado-lateral" data-target="juegos-pc">Juegos de PC</li>
+                    <li data-target="juegos-celular">Juegos de Celular</li>
+                    <li data-target="programas">Programas</li>
+                </ul>
+
+                <div class="menu-servidores">
+                    Servidores
+                    <p>Bedrock (1.7 - 1.20) <br> IP: 181.45.69.10 <br> PUERTO: 20210</p>
+                </div>
+            </div>
+            
+            <div class="menu-contenedor">
+                <div class="menu-busqueda">
+                    <input type="text" id="buscadorMenu" placeholder="Buscar opciones...">
+                </div>
+
+                <div class="menu-principal">
+                    <div class="menu-titulo">
+                        <i class="icono-lista">☰</i> <span id="tituloSeccion">Juegos de PC</span>
+                    </div>
+                    
+                    <div id="juegos-pc" class="opciones-seccion activo">
+                        <ul class="lista-opciones">
+                            <li data-link="[Link PC Juego 1 - DESCARGA]" data-link-secundario="[Link PC Juego 1 - GUÍA]" data-boton-principal="DESCARGAR" data-boton-secundario="INSTALAR">
+                                <i class="fas fa-gamepad"></i> <a href="#">PC Game 1: Dark  3 Souls</a> <span class="etiqueta">NUEVO</span>
+                            </li>
+                            <li data-link="[Link PC Juego 2 - DESCARGA]" data-link-secundario="[Link PC Juego 2 - REQUISITOS]" data-boton-principal="DESCARGAR FULL" data-boton-secundario="VER REQUISITOS">
+                                <i class="fas fa-desktop"></i> <a href="#">PC Game 2: The Witcher</a> <span class="etiqueta gratis">GRATIS</span>
+                            </li>
+                            </ul>
+                    </div>
+
+                    <div id="juegos-celular" class="opciones-seccion oculto">
+                        <ul class="lista-opciones">
+                            <li data-link="[Link Celular 1 - APK]" data-link-secundario="[Link Celular 1 - INFO]" data-boton-principal="INSTALAR APK" data-boton-secundario="WEB OFICIAL">
+                                <i class="fas fa-mobile-alt"></i> <a href="#">Mobile Game 1: PUBG</a>
+                            </li>
+                            <li data-link="[Link directo al APK MOD de 2025]" data-link-secundario="[Link a la web oficial del MOD]" data-boton-principal="DESCARGAR APK MOD" data-boton-secundario="PÁGINA OFICIAL">
+                                <i class="fas fa-chess-knight"></i> <a href="#">Terraria MOD (Todas las Clases)</a> <span class="etiqueta recomendado">MOD</span>
+                            </li>
+                            <li data-link="[Link al archivo APK principal]" data-link-secundario="[Link a los archivos OBB/Datos]" data-boton-principal="DESCARGA APK" data-boton-secundario="DESCARGA DATOS OBB">
+                                <i class="fas fa-crosshairs"></i> <a href="#">Call of Duty Mobile</a>
+                            </li>
+                            <li data-link="[Link al emulador para Android]" data-link-secundario="[Link a la guía de configuración]" data-boton-principal="DESCARGA EMU" data-boton-secundario="GUÍA DE AJUSTES">
+                                <i class="fas fa-terminal"></i> <a href="#">Emulador PPSSPP para Android</a>
+                            </li>
+                            <li data-link="[Link Celular 1 - APK]" data-link-secundario="[Link Celular 1 - INFO]" data-boton-principal="INSTALAR APK" data-boton-secundario="WEB OFICIAL">
+                                <i class="fas fa-mobile-alt"></i> <a href="#">fredi: PUBG</a>
+                            </ul>
+                    </div>
+                    
+                    <div id="programas" class="opciones-seccion oculto">
+                        <ul class="lista-opciones">
+                            <li data-link="[Link Programa 1 - DESCARGA]" data-link-secundario="[Link Programa 1 - TUTORIAL]" data-boton-principal="DESCARGAR PROGRAMA" data-boton-secundario="TUTORIAL">
+                                <i class="fas fa-cube"></i> <a href="#">Software Name: Blender</a>
+                            </li>
+                            <li data-link="[Link al instalador del programa]" data-link-secundario="[Link al archivo de activación o crack]" data-boton-principal="INSTALADOR V10.0" data-boton-secundario="DESCARGAR CRACK">
+                                <i class="fas fa-shield-alt"></i> <a href="#">Antivirus Defender Pro</a> <span class="etiqueta gratis">GRATIS</span>
+                            </li>
+                            <li data-link="[Link a la herramienta de optimización]" data-link-secundario="[Link al manual de uso en PDF]" data-boton-principal="DESCARGAR HERRAMIENTA" data-boton-secundario="MANUAL DE USO">
+                                <i class="fas fa-wrench"></i> <a href="#">Optimizador de RAM v3.1</a>
+                            </li>
+                            <li data-link="[Link a la suite completa de office]" data-link-secundario="[Link a las notas de versión (changelog)]" data-boton-principal="DESCARGA SUITE OFFICE" data-boton-secundario="NOTAS DE VERSIÓN">
+                                <i class="fas fa-file-alt"></i> <a href="#">Office Suite 2024</a>
+                            </li>
+                            </ul>
+                    </div>
+                </div>
+                
+                <div class="menu-pie">
+                    <div class="botones-pie">
+                        <a href="#" id="botonDescarga" class="boton-accion principal" target="_blank">SELECCIONA UNA OPCIÓN</a>
+                        <a href="#" id="botonSecundario" class="boton-accion secundario" target="_blank">Opción</a>
+                    </div>
+                    <p class="pie-texto">DMCA: consultasopti@gmail.com</p>
+                </div>
+            </div>
+
+            <div class="menu-derecha">
+                <div class="menu-titulo-derecha">INFORMACIÓN Y DUDAS</div>
+                <ul class="lista-derecha">
+                    <li>Acerca de OptiProject</li>
+                    <li>Canal de YouTube</li>
+                    <li>Donaciones</li>
+                </ul>
+
+                <div class="redes-sociales">
+                    <a href="https://wa.me/tunumerodewhatsapp" target="_blank" class="icono-red">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="https://discord.gg/tuinvitaciondiscord" target="_blank" class="icono-red">
+                        <i class="fab fa-discord"></i> Discord
+                    </a>
+                    <a href="https://www.tiktok.com/@tuusuariotiktok" target="_blank" class="icono-red">
+                        <i class="fab fa-tiktok"></i> TikTok
+                    </a>
+                </div>
+                <div class="pie-derecha">
+                    <a href="mailto:tu.correo.profesional@gmail.com" class="boton-adicional">Contacto Rápido</a>
+                </div>
+            </div>
+
+        </div> 
+    </div>
+    
+    <script>
+        // 1. Selectores Globales
+        const buscador = document.getElementById('buscadorMenu');
+        const listaCategorias = document.getElementById('listaCategorias');
+        const tituloSeccion = document.getElementById('tituloSeccion');
+        const botonDescarga = document.getElementById('botonDescarga');
+        const botonSecundario = document.getElementById('botonSecundario');
+        
+        // Almacena los elementos de la lista actualmente visible
+        let elementosListaActiva = []; 
+
+        // 2. Inicializar Botones Deshabilitados
+        function inicializarBotones() {
+            if (botonDescarga) {
+                botonDescarga.href = '#';
+                botonDescarga.style.pointerEvents = 'none';
+                botonDescarga.style.opacity = '0.5';
+                botonDescarga.innerHTML = 'SELECCIONA UNA OPCIÓN';
+            }
+            if (botonSecundario) {
+                botonSecundario.href = '#';
+                botonSecundario.style.pointerEvents = 'none';
+                botonSecundario.style.opacity = '0.5';
+                botonSecundario.innerHTML = 'Opción'; 
+            }
+        }
+        inicializarBotones();
+
+
+        /* ------------------------------------------- */
+        /* FUNCIÓN DE SELECCIÓN DE ITEM Y DOBLE LINK */
+        /* ------------------------------------------- */
+        function manejarSeleccion(evento) {
+            const elementoSeleccionado = evento.currentTarget;
+            
+            // 1. Quitar la clase 'seleccionado' en la lista ACTIVA
+            elementosListaActiva.forEach(li => li.classList.remove('seleccionado'));
+
+            // 2. Marcar el elemento actual como seleccionado
+            elementoSeleccionado.classList.add('seleccionado');
+
+            // 3. Obtener los 4 atributos de datos (links y textos)
+            const linkPrincipal = elementoSeleccionado.getAttribute('data-link'); 
+            const linkSecundario = elementoSeleccionado.getAttribute('data-link-secundario'); 
+            const textoPrincipal = elementoSeleccionado.getAttribute('data-boton-principal');
+            const textoSecundario = elementoSeleccionado.getAttribute('data-boton-secundario');
+
+            // 4. Actualizar el Botón Principal 
+            if (botonDescarga && linkPrincipal && textoPrincipal) {
+                botonDescarga.href = linkPrincipal; 
+                botonDescarga.innerHTML = textoPrincipal; 
+                botonDescarga.style.pointerEvents = '';
+                botonDescarga.style.opacity = '1';
+            }
+
+            // 5. Actualizar el Botón Secundario 
+            if (botonSecundario && linkSecundario && textoSecundario) {
+                botonSecundario.href = linkSecundario; 
+                botonSecundario.innerHTML = textoSecundario; 
+                botonSecundario.style.pointerEvents = '';
+                botonSecundario.style.opacity = '1';
+            } else if (botonSecundario) {
+                // Deshabilitar si no hay link secundario
+                botonSecundario.href = '#'; 
+                botonSecundario.innerHTML = 'Opción No Disp.';
+                botonSecundario.style.pointerEvents = 'none'; 
+                botonSecundario.style.opacity = '0.5';
+            }
+        }
+
+
+        /* ------------------------------------------- */
+        /* FUNCIÓN DE BÚSQUEDA (FILTRAR) */
+        /* ------------------------------------------- */
+        function filtrarMenu() {
+            // Solo ejecuta si hay una lista activa 
+            if (!elementosListaActiva || elementosListaActiva.length === 0) return;
+            
+            let filtro = buscador.value.toUpperCase();
+            
+            elementosListaActiva.forEach(elementoLi => {
+                let enlace = elementoLi.querySelector('a');
+                let texto = enlace ? (enlace.textContent || enlace.innerText) : "";
+                
+                if (texto.toUpperCase().indexOf(filtro) > -1) {
+                    elementoLi.style.display = "";
+                } else {
+                    elementoLi.style.display = "none";
+                }
+            });
+
+            // Limpiar la selección al filtrar
+            if (buscador.value.length > 0) {
+                elementosListaActiva.forEach(li => li.classList.remove('seleccionado'));
+                inicializarBotones();
+            }
+        }
+        // Asignar el evento keyup al buscador
+        if (buscador) {
+            buscador.addEventListener('keyup', filtrarMenu);
+        }
+
+
+        /* ------------------------------------------- */
+        /* ASIGNADOR DE EVENTOS Y BÚSQUEDA DE LISTA ACTIVA */
+        /* ------------------------------------------- */
+        function asignarEventosListaActiva() {
+            // Encuentra la lista de opciones que está visible (la que tiene la clase 'activo')
+            const seccionActiva = document.querySelector('.opciones-seccion.activo');
+            if (seccionActiva) {
+                const listaOpcionesActiva = seccionActiva.querySelector('.lista-opciones'); 
+                elementosListaActiva = Array.from(listaOpcionesActiva.getElementsByTagName('li'));
+            } else {
+                elementosListaActiva = [];
+            }
+
+            // Re-asigna el listener de SELECCIÓN (manejarSeleccion) a los nuevos elementos
+            elementosListaActiva.forEach(li => {
+                li.onclick = manejarSeleccion;
+                li.classList.remove('seleccionado');
+                li.style.display = ""; 
+            });
+        }
+
+
+        /* ------------------------------------------- */
+        /* FUNCIÓN DE CONTROL DE MENÚ LATERAL (CAMBIAR CONTENIDO) */
+        /* ------------------------------------------- */
+        function cambiarSeccion(evento) {
+            const elementoSeleccionado = evento.currentTarget;
+            const targetId = elementoSeleccionado.getAttribute('data-target');
+            
+            // Ocultar todas las secciones y quitar selección lateral
+            document.querySelectorAll('.opciones-seccion').forEach(seccion => {
+                seccion.classList.remove('activo');
+                seccion.classList.add('oculto');
+            });
+            document.querySelectorAll('.lista-lateral li').forEach(li => {
+                li.classList.remove('seleccionado-lateral');
+            });
+
+            // Mostrar la sección destino y marcar el elemento lateral
+            const seccionDestino = document.getElementById(targetId);
+            if (seccionDestino) {
+                seccionDestino.classList.remove('oculto');
+                seccionDestino.classList.add('activo');
+                elementoSeleccionado.classList.add('seleccionado-lateral');
+                
+                tituloSeccion.textContent = elementoSeleccionado.textContent;
+                
+                buscador.value = ''; // Limpiar buscador
+                inicializarBotones(); // Resetear botones
+                
+                // ¡CLAVE! Conectar los nuevos elementos de la lista al JavaScript
+                asignarEventosListaActiva(); 
+            }
+        }
+
+
+        /* ------------------------------------------- */
+        /* SETUP INICIAL (Al cargar la página) */
+        /* ------------------------------------------- */
+        
+        // 1. Asignar el evento click a cada opción del menú lateral
+        if (listaCategorias) {
+            listaCategorias.querySelectorAll('li').forEach(li => {
+                li.addEventListener('click', cambiarSeccion);
+            });
+        }
+
+        // 2. Configurar la lista activa inicial (la que tiene la clase "activo" por defecto)
+        asignarEventosListaActiva(); 
+    </script>
+</body>
+</html>
