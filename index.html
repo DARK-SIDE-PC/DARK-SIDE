@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DARK SIDE</title>
+    <title>Menú Dinámico OptiProject</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
@@ -151,7 +151,9 @@
         .boton-accion.principal { flex-grow: 1; background-color: #4a6a6a; }
         .boton-accion.secundario { width: 120px; background-color: #335050; }
         
-        /* ESTILOS DE ETIQUETAS/STICKERS */
+        /* ------------------------------------------- */
+        /* ESTILOS DE ETIQUETAS/STICKERS (ACTUALIZADO) */
+        /* ------------------------------------------- */
         .etiqueta { 
             font-size: 0.7em; 
             padding: 2px 5px; 
@@ -168,6 +170,16 @@
         .etiqueta.gratis {
             background-color: #79c0ff; /* Azul claro */
             color: #000;
+        }
+        /* NUEVA ETIQUETA: Portable */
+        .etiqueta.portable { 
+            background-color: #ff9933; /* Naranja para Portable */
+            color: #000;
+        }
+        /* NUEVA ETIQUETA: Instalador */
+        .etiqueta.instalador { 
+            background-color: #6a5acd; /* Morado/Violeta para Instalador */
+            color: #fff;
         }
 
         .menu-titulo-derecha { font-size: 1.1em; font-weight: bold; padding: 10px 15px; margin-bottom: 10px; border-bottom: 1px solid #444; }
@@ -272,7 +284,7 @@
 
                 <div class="menu-servidores">
                     Servidores
-                    <p> <br>  <br> </p>
+                    <p>Bedrock (1.7 - 1.20) <br> IP: 181.45.69.10 <br> PUERTO: 20210</p>
                 </div>
             </div>
             
@@ -289,10 +301,10 @@
                     <div id="juegos-pc" class="opciones-seccion activo">
                         <ul class="lista-opciones">
                             <li data-link="[Link PC Juego 1 - DESCARGA]" data-link-secundario="[Link PC Juego 1 - GUÍA]" data-boton-principal="DESCARGAR" data-boton-secundario="INSTALAR">
-                                <i class="fas fa-gamepad"></i> <a href="#">PC Game 1: Dark  3 Souls</a> <span class="etiqueta">NUEVO</span>
+                                <i class="fas fa-gamepad"></i> <a href="#">PC Game 1: Dark  3 Souls</a> <span class="etiqueta portable">PORTABLE</span> <span class="etiqueta">NUEVO</span>
                             </li>
                             <li data-link="[Link PC Juego 2 - DESCARGA]" data-link-secundario="[Link PC Juego 2 - REQUISITOS]" data-boton-principal="DESCARGAR FULL" data-boton-secundario="VER REQUISITOS">
-                                <i class="fas fa-desktop"></i> <a href="#">PC Game 2: The Witcher</a> <span class="etiqueta gratis">GRATIS</span>
+                                <i class="fas fa-desktop"></i> <a href="#">PC Game 2: The Witcher</a> <span class="etiqueta instalador">INSTALADOR</span> <span class="etiqueta gratis">GRATIS</span>
                             </li>
                             </ul>
                     </div>
@@ -303,7 +315,7 @@
                                 <i class="fas fa-mobile-alt"></i> <a href="#">Mobile Game 1: PUBG</a>
                             </li>
                             <li data-link="[Link directo al APK MOD de 2025]" data-link-secundario="[Link a la web oficial del MOD]" data-boton-principal="DESCARGAR APK MOD" data-boton-secundario="PÁGINA OFICIAL">
-                                <i class="fas fa-chess-knight"></i> <a href="#">Terraria MOD (Todas las Clases)</a> <span class="etiqueta recomendado">MOD</span>
+                                <i class="fas fa-chess-knight"></i> <a href="#">Terraria MOD (Todas las Clases)</a> <span class="etiqueta recomendado">MOD</span> <span class="etiqueta">NUEVO</span>
                             </li>
                             <li data-link="[Link al archivo APK principal]" data-link-secundario="[Link a los archivos OBB/Datos]" data-boton-principal="DESCARGA APK" data-boton-secundario="DESCARGA DATOS OBB">
                                 <i class="fas fa-crosshairs"></i> <a href="#">Call of Duty Mobile</a>
@@ -313,22 +325,23 @@
                             </li>
                             <li data-link="[Link Celular 1 - APK]" data-link-secundario="[Link Celular 1 - INFO]" data-boton-principal="INSTALAR APK" data-boton-secundario="WEB OFICIAL">
                                 <i class="fas fa-mobile-alt"></i> <a href="#">fredi: PUBG</a>
+                            </li>
                             </ul>
                     </div>
                     
                     <div id="programas" class="opciones-seccion oculto">
                         <ul class="lista-opciones">
                             <li data-link="[Link Programa 1 - DESCARGA]" data-link-secundario="[Link Programa 1 - TUTORIAL]" data-boton-principal="DESCARGAR PROGRAMA" data-boton-secundario="TUTORIAL">
-                                <i class="fas fa-cube"></i> <a href="#">Software Name: Blender</a>
+                                <i class="fas fa-cube"></i> <a href="#">Software Name: Blender</a> <span class="etiqueta portable">PORTABLE</span>
                             </li>
                             <li data-link="[Link al instalador del programa]" data-link-secundario="[Link al archivo de activación o crack]" data-boton-principal="INSTALADOR V10.0" data-boton-secundario="DESCARGAR CRACK">
-                                <i class="fas fa-shield-alt"></i> <a href="#">Antivirus Defender Pro</a> <span class="etiqueta gratis">GRATIS</span>
+                                <i class="fas fa-shield-alt"></i> <a href="#">Antivirus Defender Pro</a> <span class="etiqueta instalador">INSTALADOR</span> <span class="etiqueta gratis">GRATIS</span>
                             </li>
                             <li data-link="[Link a la herramienta de optimización]" data-link-secundario="[Link al manual de uso en PDF]" data-boton-principal="DESCARGAR HERRAMIENTA" data-boton-secundario="MANUAL DE USO">
-                                <i class="fas fa-wrench"></i> <a href="#">Optimizador de RAM v3.1</a>
+                                <i class="fas fa-wrench"></i> <a href="#">Optimizador de RAM v3.1</a> <span class="etiqueta portable">PORTABLE</span>
                             </li>
                             <li data-link="[Link a la suite completa de office]" data-link-secundario="[Link a las notas de versión (changelog)]" data-boton-principal="DESCARGA SUITE OFFICE" data-boton-secundario="NOTAS DE VERSIÓN">
-                                <i class="fas fa-file-alt"></i> <a href="#">Office Suite 2024</a>
+                                <i class="fas fa-file-alt"></i> <a href="#">Office Suite 2024</a> <span class="etiqueta instalador">INSTALADOR</span>
                             </li>
                             </ul>
                     </div>
@@ -339,16 +352,16 @@
                         <a href="#" id="botonDescarga" class="boton-accion principal" target="_blank">SELECCIONA UNA OPCIÓN</a>
                         <a href="#" id="botonSecundario" class="boton-accion secundario" target="_blank">Opción</a>
                     </div>
-                    <p class="pie-texto">DMCA: </p>
+                    <p class="pie-texto">DMCA: consultasopti@gmail.com</p>
                 </div>
             </div>
 
             <div class="menu-derecha">
                 <div class="menu-titulo-derecha">INFORMACIÓN Y DUDAS</div>
                 <ul class="lista-derecha">
-                    <li>COMPARTE</li>
-                    <li>CON TUS</li>
-                    <li>AMIGOS</li>
+                    <li>Acerca de OptiProject</li>
+                    <li>Canal de YouTube</li>
+                    <li>Donaciones</li>
                 </ul>
 
                 <div class="redes-sociales">
@@ -544,6 +557,4 @@
         asignarEventosListaActiva(); 
     </script>
 </body>
-
 </html>
-
