@@ -17,7 +17,7 @@
             font-family: sans-serif; 
             color: #f1f1f1; 
             
-            
+            /* FONDO PREDETERMINADO (ESCRITORIO) */
             background-image: url(IMG/image.png); 
             background-position: center;
             background-repeat: no-repeat;
@@ -240,6 +240,17 @@
 
         
         @media (max-width: 900px) {
+
+            /* ------------------------------------------- */
+            /* CAMBIO DE FONDO PARA MÓVIL */
+            /* ------------------------------------------- */
+            body { 
+                /* ESTA ES LA RUTA QUE DEBES ASEGURARTE DE QUE EXISTE */
+                background-image: url(IMG/); 
+                background-size: cover;
+                background-position: center;
+            }
+
 
             .menu-overlay {
                 position: absolute; 
