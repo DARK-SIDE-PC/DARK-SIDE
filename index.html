@@ -9,9 +9,6 @@
     
     <style>
       
-        /* ------------------------------------------- */
-        /* ESTILOS BASE Y FONDO (CSS) */
-        /* ------------------------------------------- */
         body { 
             margin: 0; 
             font-family: sans-serif; 
@@ -103,10 +100,6 @@
             box-sizing: border-box;
         }
 
-        
-        /* ------------------------------------------- */
-        /* ESTILOS DE LISTAS */
-        /* ------------------------------------------- */
         .menu-titulo-lateral { font-size: 1.2em; font-weight: bold; padding: 10px 15px; margin-bottom: 10px; border-bottom: 1px solid #444; }
         .lista-lateral { list-style: none; padding: 0; margin: 0; }
         .lista-lateral li { padding: 10px 15px; cursor: pointer; border-left: 3px solid transparent; transition: background-color 0.2s, border-left 0.2s; }
@@ -147,10 +140,6 @@
         .boton-accion.principal { flex-grow: 1; background-color: #4a6a6a; }
         .boton-accion.secundario { width: 120px; background-color: #335050; }
         
-    
-        /* ------------------------------------------- */
-        /* ESTILOS DE ETIQUETAS/STICKERS */
-        /* ------------------------------------------- */
         .etiqueta { 
             font-size: 0.7em; 
             padding: 2px 5px; 
@@ -211,31 +200,26 @@
         .fa-tiktok { color: #ee1d52; }
 
         
-        /* ------------------------------------------- */
-        /* ESTILOS DE BARRA DE DESPLAZAMIENTO (SCROLLBAR) */
-        /* ------------------------------------------- */
-
-        /* Define el ancho de la barra */
         .lista-opciones::-webkit-scrollbar {
-            width: 6px; /* Más delgado */
+            width: 6px;
             background-color: transparent;
         }
 
-        /* Define la 'Pista' (el fondo por donde se mueve el pulgar) */
+        
         .lista-opciones::-webkit-scrollbar-track {
-            background: #2c2c2c; /* Gris muy oscuro */
+            background: #2c2c2c; 
             border-radius: 10px;
         }
 
-        /* Define el 'Pulgar' (la parte que se mueve) */
+        
         .lista-opciones::-webkit-scrollbar-thumb {
-            background-color: #555; /* Gris oscuro para el pulgar */
+            background-color: #555; 
             border-radius: 10px;
         }
 
-        /* Estilo al pasar el ratón por el pulgar */
+       
         .lista-opciones::-webkit-scrollbar-thumb:hover {
-            background-color: #777; /* Un gris un poco más claro al pasar el ratón */
+            background-color: #777; 
         }
 
         
@@ -410,7 +394,7 @@
                     <a href="https://discord.gg/QGTRXYhwed" target="_blank" class="icono-red">
                         <i class="fab fa-discord"></i> Discord
                     </a>
-                    <a href="https://www.tiktok.com/@tuusuariotiktok" target="_blank" class="icono-red">
+                    <a href="www.tiktok.com/@dark_side_pc" target="_blank" class="icono-red">
                         <i class="fab fa-tiktok"></i> TikTok
                     </a>
                 </div>
@@ -433,38 +417,31 @@
         
         let elementosListaActiva = []; 
 
-        /**
-         * Función para ordenar alfabéticamente los elementos de una lista por el texto del enlace.
-         * @param {string} idContenedor - El ID del div contenedor (ej: 'juegos-pc').
-         */
         function ordenarContenidoAlfabeticamente(idContenedor) {
             const seccion = document.getElementById(idContenedor);
             const ul = seccion ? seccion.querySelector('.lista-opciones') : null;
             if (!ul) return;
 
-            // Convertir la colección de hijos (<li>) a un Array para poder ordenar
             let items = Array.from(ul.children);
 
-            // Ordenar el array de elementos <li>
             items.sort((a, b) => {
-                // Obtener el texto del enlace (<a>) para la comparación
+                
                 const textA = a.querySelector('a').textContent.trim().toUpperCase();
                 const textB = b.querySelector('a').textContent.trim().toUpperCase();
 
                 if (textA < textB) {
-                    return -1; // a va antes que b
+                    return -1;
                 }
                 if (textA > textB) {
-                    return 1;  // a va después que b
+                    return 1;  
                 }
                 return 0;
             });
 
-            // Re-añadir los elementos ordenados a la UL (esto los reordena automáticamente)
+            
             items.forEach(item => ul.appendChild(item));
         }
 
-        // 1. **Aplicar el ordenamiento alfabético a todas las secciones al cargar**
         ordenarContenidoAlfabeticamente('juegos-pc');
         ordenarContenidoAlfabeticamente('juegos-celular');
         ordenarContenidoAlfabeticamente('programas');
