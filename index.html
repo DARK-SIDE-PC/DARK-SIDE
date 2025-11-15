@@ -433,7 +433,43 @@
         
         let elementosListaActiva = []; 
 
-        
+        /**
+         * Función para ordenar alfabéticamente los elementos de una lista por el texto del enlace.
+         * @param {string} idContenedor - El ID del div contenedor (ej: 'juegos-pc').
+         */
+        function ordenarContenidoAlfabeticamente(idContenedor) {
+            const seccion = document.getElementById(idContenedor);
+            const ul = seccion ? seccion.querySelector('.lista-opciones') : null;
+            if (!ul) return;
+
+            // Convertir la colección de hijos (<li>) a un Array para poder ordenar
+            let items = Array.from(ul.children);
+
+            // Ordenar el array de elementos <li>
+            items.sort((a, b) => {
+                // Obtener el texto del enlace (<a>) para la comparación
+                const textA = a.querySelector('a').textContent.trim().toUpperCase();
+                const textB = b.querySelector('a').textContent.trim().toUpperCase();
+
+                if (textA < textB) {
+                    return -1; // a va antes que b
+                }
+                if (textA > textB) {
+                    return 1;  // a va después que b
+                }
+                return 0;
+            });
+
+            // Re-añadir los elementos ordenados a la UL (esto los reordena automáticamente)
+            items.forEach(item => ul.appendChild(item));
+        }
+
+        // 1. **Aplicar el ordenamiento alfabético a todas las secciones al cargar**
+        ordenarContenidoAlfabeticamente('juegos-pc');
+        ordenarContenidoAlfabeticamente('juegos-celular');
+        ordenarContenidoAlfabeticamente('programas');
+
+
         function inicializarBotones() {
             if (botonDescarga) {
                 botonDescarga.href = '#';
