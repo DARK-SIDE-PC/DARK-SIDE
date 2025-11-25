@@ -364,14 +364,20 @@
                     
                     <div id="programas" class="opciones-seccion oculto">
                         <ul class="lista-opciones">
-                            <li data-link="https://exe.io/i3grvCpH" data-link-secundario="https://www.mediafire.com/file/jj1d1smrdrovpnq/God_of_War_Ghost_of_Sparta_by_dark_side.7z/file" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                            <li data-link="https://exe.io/i3grvCpH" data-link-secundario="https://www.mediafire.com/file/jj1d1smrdrovpnq/God_of_War_Ghost_of_Sparta_by_dark_side.7z/file" data-boton-principal="DESCARGAR ROM" data-boton-secundario="DESCARGA">
                                 <i class="fas fa-compact-disc"></i> <a href="#">God of War: Ghost of Spartan</a> <span class="etiqueta portable">PSP ROM</span>
                             </li>
-                             <li data-link="https://www.mediafire.com/file/645dio4cncupcbr/Dante%2527s_Inferno_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/IkDU5Z2" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                             <li data-link="https://www.mediafire.com/file/645dio4cncupcbr/Dante%2527s_Inferno_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/IkDU5Z2" data-boton-principal="DESCARGAR ROM" data-boton-secundario="DESCARGA">
                                 <i class="fas fa-compact-disc"></i> <a href="#">Dante's Inferno</a> <span class="etiqueta portable">PSP ROM</span>
                             </li>
-                            <li data-link="https://exe.io/zKZY" data-link-secundario="https://www.mediafire.com/file/dj259orwkjhhrmv/Monster_Hunter_Freedom_2_BY_DARK_SIDE.7z/file" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                            <li data-link="https://exe.io/zKZY" data-link-secundario="https://www.mediafire.com/file/dj259orwkjhhrmv/Monster_Hunter_Freedom_2_BY_DARK_SIDE.7z/file" data-boton-principal="DESCARGAR ROM" data-boton-secundario="DESCARGAR">
                                 <i class="fas fa-compact-disc"></i> <a href="#">Monster Hunter Freedom 2</a> <span class="etiqueta portable">PSP ROM</span>
+                            </li>
+                            <li data-link="https://exe.io/9XP6nTy" data-link-secundario="https://www.mediafire.com/file/1zew6fca8mfh13z/Assassin%2527s_Creed-Bloodlines_By_Dark_Side.7z/file" data-boton-principal="DESCARGAR ROM" data-boton-secundario="DESCARGAR">
+                                <i class="fas fa-compact-disc"></i> <a href="#">Assassin's Creed-Bloodlines </a> <span class="etiqueta portable">PSP ROM</span>
+                            </li>
+                             <li data-link="https://exe.io/2RuDJ9v" data-link-secundario="https://www.mediafire.com/file/hze6uiijkj6znvu/Grand_Theft_Auto_-_Vice_City_Stories_By_Dark_Side.7z/file" data-boton-principal="DESCARGAR ROM" data-boton-secundario="DESCARGAR">
+                                <i class="fas fa-compact-disc"></i> <a href="#"> Grand Theft Auto - Vice City Stories </a> <span class="etiqueta portable">PSP ROM</span>
                             </li>
                             
                             </li>
@@ -429,38 +435,34 @@
         
         let elementosListaActiva = []; 
 
-        /**
-         * Función para ordenar alfabéticamente los elementos de una lista por el texto del enlace.
-         * @param {string} idContenedor - El ID del div contenedor (ej: 'juegos-pc').
-         */
+       
         function ordenarContenidoAlfabeticamente(idContenedor) {
             const seccion = document.getElementById(idContenedor);
             const ul = seccion ? seccion.querySelector('.lista-opciones') : null;
             if (!ul) return;
 
-            // Convertir la colección de hijos (<li>) a un Array para poder ordenar
+            
             let items = Array.from(ul.children);
 
-            // Ordenar el array de elementos <li>
+            
             items.sort((a, b) => {
-                // Obtener el texto del enlace (<a>) para la comparación
+                n
                 const textA = a.querySelector('a').textContent.trim().toUpperCase();
                 const textB = b.querySelector('a').textContent.trim().toUpperCase();
 
                 if (textA < textB) {
-                    return -1; // a va antes que b
+                    return -1;
                 }
                 if (textA > textB) {
-                    return 1;  // a va después que b
+                    return 1;  // 
                 }
                 return 0;
             });
 
-            // Re-añadir los elementos ordenados a la UL (esto los reordena automáticamente)
             items.forEach(item => ul.appendChild(item));
         }
 
-        // 1. **Aplicar el ordenamiento alfabético a todas las secciones al cargar**
+      
         ordenarContenidoAlfabeticamente('juegos-pc');
         ordenarContenidoAlfabeticamente('juegos-celular');
         ordenarContenidoAlfabeticamente('programas');
