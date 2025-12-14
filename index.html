@@ -8,13 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-      
+        /* Estilos CSS */
+        
         body { 
             margin: 0; 
             font-family: sans-serif; 
             color: #f1f1f1; 
             
-            background-image: url(IMG/image.png); 
+            /* FONDO PRINCIPAL: Asegúrate que 'img/image.png' existe */
+            background-image: url(img/image.png); 
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
@@ -86,7 +88,7 @@
         
         
         .menu-busqueda {
-             text-align: left; 
+              text-align: left; 
         }
         .menu-busqueda input { 
             width: 100%; 
@@ -106,7 +108,11 @@
         .lista-lateral li.seleccionado-lateral { background-color: rgba(121, 192, 255, 0.2); border-left: 3px solid #79c0ff; }
         .menu-servidores { font-size: 0.8em; padding: 15px; border-top: 1px solid #444; margin-top: 15px; color: #ccc; }
         .menu-titulo { font-weight: bold; font-size: 1.1em; padding-bottom: 10px; border-bottom: 1px solid #444; margin-bottom: 10px; }
+        
+        /* 1. CONTENEDOR DE LA LISTA: Ajustes para el scrollbar */
         .lista-opciones { list-style: none; padding: 0; margin: 0; max-height: 40vh; overflow-y: auto; }
+        
+        /* 2. ELEMENTO DE LA LISTA: Configuración base */
         .lista-opciones li { 
             padding: 10px 0; 
             border-bottom: 1px solid #3a3a3a; 
@@ -115,31 +121,46 @@
             cursor: pointer; 
             transition: background-color 0.2s, border-left 0.2s, box-shadow 0.3s; 
         }
+        
+        /* 3. EFECTO HOVER: Resaltado limpio al pasar el ratón */
         .lista-opciones li:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 0 10px rgba(121, 192, 255, 0.3); 
+            background-color: rgba(121, 192, 255, 0.1);
+            box-shadow: 0 0 10px rgba(121, 192, 255, 0.15); 
         }
         
         
         .lista-opciones li i {
             margin-right: 10px; 
             color: #79c0ff; 
+            cursor: pointer; 
         }
 
-        .lista-opciones li a { color: #f1f1f1; text-decoration: none; flex-grow: 1; }
+        /* 4. ENLACE (Texto del juego): Ocupa el espacio restante */
+        .lista-opciones li a { 
+            color: #79c0ff; 
+            text-decoration: none; 
+            flex-grow: 1;
+            cursor: pointer; 
+        }
+
+        .lista-opciones li a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 5. ELEMENTO SELECCIONADO (CLIC): Borde y fondo fijo */
         .lista-opciones li.seleccionado { 
             border-left: 4px solid #79c0ff; 
-            background-color: rgba(121, 192, 255, 0.1); 
+            background-color: rgba(121, 192, 255, 0.2); 
             padding-left: 6px; 
             box-shadow: 0 0 5px rgba(121, 192, 255, 0.4); 
         }
+        
         .opciones-seccion.oculto { display: none; }
         .botones-pie { display: flex; gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px solid #444; }
         .boton-accion { text-decoration: none; padding: 12px; border-radius: 6px; color: #fff; text-align: center; }
         .boton-accion.principal { flex-grow: 1; background-color: #4a6a6a; }
         .boton-accion.secundario { width: 120px; background-color: #335050; }
         
-    
         .etiqueta { 
             font-size: 0.7em; 
             padding: 2px 5px; 
@@ -162,7 +183,7 @@
             background-color: #ff9933; 
             color: #000;
         }
-      
+        
         .etiqueta.instalador { 
             background-color: #6a5acd; 
             color: #fff;
@@ -182,7 +203,7 @@
             color: #fff; 
             text-decoration: none; 
             border-radius: 6px; 
-            font-size: 0.9em;        
+            font-size: 0.9em;  
             transition: background-color 0.3s ease, color 0.3s ease; 
         }
         
@@ -199,7 +220,7 @@
         .fa-discord { color: #5865f2; }
         .fa-tiktok { color: #ee1d52; }
 
-        
+        /* Estilos para la barra de desplazamiento */
         .lista-opciones::-webkit-scrollbar {
             width: 6px; 
             background-color: transparent;
@@ -210,7 +231,6 @@
             border-radius: 10px;
         }
 
-        
         .lista-opciones::-webkit-scrollbar-thumb {
             background-color: #555; 
             border-radius: 10px;
@@ -219,14 +239,98 @@
         .lista-opciones::-webkit-scrollbar-thumb:hover {
             background-color: #777; 
         }
-
         
+        /* --- ESTILOS PARA LOS MODALES --- */
+
+        /* Contenedor del Modal (Fondo oscuro) */
+        .modal-contenedor {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9); 
+            padding-top: 50px;
+            animation: fadeIn 0.3s;
+        }
+
+        /* Contenido del Modal */
+        .modal-contenido {
+            background-color: rgba(20, 20, 20, 0.95);
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #79c0ff;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(121, 192, 255, 0.5);
+            animation: slideDown 0.5s;
+        }
+
+        /* Botón de Cierre (X) */
+        .cerrar-modal {
+            color: #f1f1f1;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .cerrar-modal:hover,
+        .cerrar-modal:focus {
+            color: #ff4d4d;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        /* ESTILO PARA EL BOTÓN DE REPORTE */
+        #botonReportar {
+            display: block;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ff4d4d; /* Rojo para advertir */
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        #botonReportar:hover {
+            background-color: #cc0000;
+        }
+        /* FIN ESTILO PARA EL BOTÓN DE REPORTE */
+        
+        /* Estilos para la descripción en el modal */
+        #detalleDescripcion {
+            display: block;
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+
+        /* Animaciones CSS */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* --- MEDIA QUERIES PARA ADAPTACIÓN MÓVIL --- */
         @media (max-width: 900px) {
 
             
             body { 
-                
-                background-image: url(IMG/foto\ 1.png); 
+                /* FONDO MÓVIL: Ruta corregida a 'img' */
+                background-image: url(img/foto\ 1.png); 
                 background-size: cover;
                 background-position: center;
             }
@@ -282,7 +386,7 @@
     <div class="menu-overlay">
         
         <div class="menu-logo">
-            <img src="IMG/ideal.png" alt="Logo de OptiProject" class="logo-imagen">
+            <img src="img/ideal.png" alt="Logo de OptiProject" class="logo-imagen">
         </div>
         <div class="menu-central-flex">
             
@@ -296,7 +400,7 @@
 
                 <div class="menu-servidores">
                     password:
-                    <p> <br>DARK SIDE  <br> </p>
+                    <p> <br>DARK SIDE <br> </p>
                 </div>
             </div>
             
@@ -311,82 +415,175 @@
                     </div>
                     
                     <div id="juegos-pc" class="opciones-seccion activo">
-                        <ul class="lista-opciones">
-                            <li data-link="[Link PC Juego 1 - DESCARGA]" data-link-secundario="[Link PC Juego 1 - GUÍA]" data-boton-principal="DESCARGAR" data-boton-secundario="INSTALAR">
+                        <ul class="lista-opciones" id="lista-juegos-pc">
+                            <li 
+                                data-link="[Link PC Juego 1 - DESCARGA]" 
+                                data-link-secundario="[Link PC Juego 1 - GUÍA]" 
+                                data-boton-principal="DESCARGAR" 
+                                data-boton-secundario="INSTALAR"
+                                data-descripcion="Dark 3 Souls es un RPG de acción conocido por su alta dificultad, atmósfera oscura y combate profundo. Recomendado para jugadores experimentados." 
+                            > 
                                 <i class="fas fa-gamepad"></i> <a href="#">PC Game 1: Dark 3 Souls</a> <span class="etiqueta portable">PORTABLE</span> <span class="etiqueta">NUEVO</span>
                             </li>
                         
-                            <li data-link="[Link PC Juego 2 - DESCARGA]" data-link-secundario="[Link PC Juego 2 - REQUISITOS]" data-boton-principal="DESCARGAR FULL" data-boton-secundario="VER REQUISITOS">
+                            <li 
+                                data-link="[Link PC Juego 2 - DESCARGA]" 
+                                data-link-secundario="[Link PC Juego 2 - REQUISITOS]" 
+                                data-boton-principal="DESCARGAR FULL" 
+                                data-boton-secundario="VER REQUISITOS"
+                                data-descripcion="El Call of Duty original te sumerge en la Segunda Guerra Mundial, viviendo el conflicto desde múltiples perspectivas aliadas."
+                            > 
                                 <i class="fas fa-desktop"></i> <a href="#">Call of Duty 1</a>  <span class="etiqueta portable">PORTABLE</span>
                             </li>
-                             <li data-link="[Link PC Juego 2 - DESCARGA]" data-link-secundario="[Link PC Juego 2 - REQUISITOS]" data-boton-principal="DESCARGAR FULL" data-boton-secundario="VER REQUISITOS">
+                             <li 
+                                data-link="[Link PC Juego 2 - DESCARGA]" 
+                                data-link-secundario="[Link PC Juego 2 - REQUISITOS]" 
+                                data-boton-principal="DESCARGAR FULL" 
+                                data-boton-secundario="VER REQUISITOS"
+                                data-descripcion="La segunda entrega de Call of Duty mejoró la inmersión con gráficos y sonidos más realistas, siguiendo la lucha contra las fuerzas del Eje."
+                            > 
                                 <i class="fas fa-desktop"></i> <a href="#">Call of Duty 2</a>  <span class="etiqueta portable">PORTABLE</span>
                             </li>
-                            </ul>
+                        </ul>
                     </div>
 
 
-
-
-                        
                     <div id="juegos-celular" class="opciones-seccion oculto">
-                        <ul class="lista-opciones">
-                            <li data-link="https://www.mediafire.com/file/pg99vqhohcjg2ip/Limbo-_By_DARK_SIDE.apk/file" data-link-secundario="https://exe.io/7WlubMh5" data-boton-principal="link Normal" data-boton-secundario="link Directo">
+                        <ul class="lista-opciones" id="lista-juegos-celular">
+                             <li 
+                                data-link="https://www.mediafire.com/file/pg99vqhohcjg2ip/Limbo-_By_DARK_SIDE.apk/file" 
+                                data-link-secundario="https://exe.io/7WlubMh5" 
+                                data-boton-principal="link Normal" 
+                                data-boton-secundario="link Directo"
+                                data-descripcion="Limbo es un juego de plataformas y puzles atmosférico, monocromático y aclamado por su diseño de sonido e historia abstracta."
+                            > 
                                 <i class="fas fa-mobile-alt"></i> <a href="#">Limbo</a>  
                             </li>
-                            <li data-link="https://www.mediafire.com/file/e1wlcro05xaezup/Hollow_Knight_By__DARK_SIDE.7z/file" data-link-secundario="https://exe.io/5eM8eEUs" data-boton-principal="Link Normal" data-boton-secundario="link Directo">
+                            <li 
+                                data-link="https://www.mediafire.com/file/e1wlcro05xaezup/Hollow_Knight_By__DARK_SIDE.7z/file" 
+                                data-link-secundario="https://exe.io/5eM8eEUs" 
+                                data-boton-principal="Link Normal" 
+                                data-boton-secundario="link Directo"
+                                data-descripcion="Un hermoso Metroidvania 2D con un vasto mundo interconectado y desafiantes batallas contra jefes."
+                            > 
                                 <i class="fas fa-mobile-alt"></i> <a href="#">Hollow Knight</a> 
                             </li>
                             
-                            </ul>
+                        </ul>
                     </div>
 
 
-
-
-                    
-                    
-                    
                     <div id="programas" class="opciones-seccion oculto">
-                        <ul class="lista-opciones">
-                            <li data-link="https://www.mediafire.com/file/jj1d1smrdrovpnq/God_of_War_Ghost_of_Sparta_by_dark_side.7z/file" data-link-secundario="https://exe.io/i3grvCpH" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                        <ul class="lista-opciones" id="lista-programas">
+                             <li 
+                                data-link="https://www.mediafire.com/file/jj1d1smrdrovpnq/God_of_War_Ghost_of_Sparta_by_dark_side.7z/file" 
+                                data-link-secundario="https://exe.io/i3grvCpH" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Ghost of Sparta es una precuela que detalla el ascenso de Kratos como Dios de la Guerra y su pasado familiar."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">God of War: Ghost of Spartan</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                              <li data-link="https://www.mediafire.com/file/x6xhd1u5re2rlmu/Tekken_6_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/xk3xfr5" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                             <li 
+                                data-link="https://www.mediafire.com/file/x6xhd1u5re2rlmu/Tekken_6_By_Dark_Side.7z/file" 
+                                data-link-secundario="https://exe.io/xk3xfr5" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Una entrega del famoso torneo del Puño de Hierro, con nuevos personajes y modos de juego adaptados a la portabilidad."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Tekken 6</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                              <li data-link="https://www.mediafire.com/file/d7psjzm0yn0ejya/Spider-Man_3_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/SBk0YR" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                             <li 
+                                data-link="https://www.mediafire.com/file/d7psjzm0yn0ejya/Spider-Man_3_By_Dark_Side.7z/file" 
+                                data-link-secundario="https://exe.io/SBk0YR" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Basado en la película de 2007, permite a los jugadores balancearse por Nueva York y enfrentarse a Sandman y Venom."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Spider Man 3</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                               <li data-link="https://www.mediafire.com/file/wpx1qyfn5103lqk/Need_for_Speed_-_ProStreet_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/p7LJGi" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
-                                <i class="fas fa-compact-disc"></i> <a href="#">Need for Speed ProStreet   </a> <span class="etiqueta portable">PSP ROM</span>
+                               <li 
+                                data-link="https://www.mediafire.com/file/wpx1qyfn5103lqk/Need_for_Speed_-_ProStreet_By_Dark_Side.7z/file" 
+                                data-link-secundario="https://exe.io/p7LJGi" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Cambia las carreras callejeras por un estilo de competencia legal y con física realista."
+                            > 
+                                <i class="fas fa-compact-disc"></i> <a href="#">Need for Speed ProStreet </a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                              <li data-link="https://www.mediafire.com/file/tqzb8jrbly4r4fk/Naruto_Shippuden_-_Ultimate_Ninja_Heroes_3_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/JboC3o" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                             <li 
+                                data-link="https://www.mediafire.com/file/tqzb8jrbly4r4fk/Naruto_Shippuden_-_Ultimate_Ninja_Heroes_3_By_Dark_Side.7z/file" 
+                                data-link-secundario="https://exe.io/JboC3o" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Juego de lucha con elementos de RPG, ideal para los fans de Naruto con su modo historia y batallas en equipo."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Naruto Shippuden Ultimate Ninja Heroes 3</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                              <li data-link=" https://www.mediafire.com/file/dj259orwkjhhrmv/Monster_Hunter_Freedom_2_BY_DARK_SIDE.7z/file" data-link-secundario=" https://exe.io/zKZY" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                             <li 
+                                data-link=" https://www.mediafire.com/file/dj259orwkjhhrmv/Monster_Hunter_Freedom_2_BY_DARK_SIDE.7z/file" 
+                                data-link-secundario=" https://exe.io/zKZY" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Caza monstruos gigantes, mejora tu equipo y explora vastos mapas en este clásico de la caza."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Monster Hunter Freedom 2</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                              <li data-link="https://www.mediafire.com/file/i0pws0hjc4fn3xu/Midnight_Club_3_-_DUB_Edition_By_Dark_Side.7z/file" data-link-secundario=" https://exe.io/UbWo5sz" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                             <li 
+                                data-link="https://www.mediafire.com/file/i0pws0hjc4fn3xu/Midnight_Club_3_-_DUB_Edition_By_Dark_Side.7z/file" 
+                                data-link-secundario=" https://exe.io/UbWo5sz" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Carreras callejeras nocturnas en Los Ángeles, Detroit y Tokio con un amplio sistema de personalización de vehículos."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Midnight Club 3 DUB Edition</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                              <li data-link="https://www.mediafire.com/file/hze6uiijkj6znvu/Grand_Theft_Auto_-_Vice_City_Stories_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/2RuDJ9v" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                             <li 
+                                data-link="https://www.mediafire.com/file/hze6uiijkj6znvu/Grand_Theft_Auto_-_Vice_City_Stories_By_Dark_Side.7z/file" 
+                                data-link-secundario="https://exe.io/2RuDJ9v" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Una precuela de Vice City que cuenta la historia de Victor Vance antes de los eventos del juego principal."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Grand Theft Auto Vice City Stories</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                               <li data-link="https://www.mediafire.com/file/txh8jx7eu1h48si/Gran_Turismo_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/fvPa3U98" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                               <li 
+                                data-link="https://www.mediafire.com/file/txh8jx7eu1h48si/Gran_Turismo_By_Dark_Side.7z/file" 
+                                data-link-secundario="https://exe.io/fvPa3U98" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Simulador de carreras que lleva la experiencia Gran Turismo a la palma de tu mano, con cientos de coches licenciados."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Gran Turismo</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                              <li data-link="https://www.mediafire.com/file/6dmod9vlwmhs61q/God_of_War_-_Chains_of_Olympus_By_Dark_Side.7z/file" data-link-secundario=" https://exe.io/bHu9BL" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                             <li 
+                                data-link="https://www.mediafire.com/file/6dmod9vlwmhs61q/God_of_War_-_Chains_of_Olympus_By_Dark_Side.7z/file" 
+                                data-link-secundario=" https://exe.io/bHu9BL" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Ambientado antes de los eventos del primer God of War, Kratos debe salvar a Helios y enfrentarse a la Reina Perséfone."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">God of War Chains of Olympus</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                               <li data-link="https://www.mediafire.com/file/645dio4cncupcbr/Dante%2527s_Inferno_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/IkDU5Z2" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                               <li 
+                                data-link="https://www.mediafire.com/file/645dio4cncupcbr/Dante%2527s_Inferno_By_Dark_Side.7z/file" 
+                                data-link-secundario="https://exe.io/IkDU5Z2" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Un juego de acción y aventura que te lleva a través de los nueve círculos del Infierno, basado en el poema épico."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Dante's Inferno</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                               <li data-link="https://www.mediafire.com/file/1zew6fca8mfh13z/Assassin%2527s_Creed-Bloodlines_By_Dark_Side.7z/file" data-link-secundario="https://exe.io/9XP6nTy" data-boton-principal="DESCARGAR ROM" data-boton-secundario="Link Directo">
+                               <li 
+                                data-link="https://www.mediafire.com/file/1zew6fca8mfh13z/Assassin%2527s_Creed-Bloodlines_By_Dark_Side.7z/file" 
+                                data-link-secundario="https://exe.io/9XP6nTy" 
+                                data-boton-principal="DESCARGAR ROM" 
+                                data-boton-secundario="Link Directo"
+                                data-descripcion="Secuela directa del primer Assassin's Creed, que continúa las aventuras de Altaïr en Chipre."
+                            > 
                                 <i class="fas fa-compact-disc"></i> <a href="#">Assassin's Creed Bloodlines</a> <span class="etiqueta portable">PSP ROM</span>
                              </li>
-                               
-                            </ul>
+                        </ul>
                     </div>
                 </div>
                 
@@ -426,6 +623,41 @@
         </div> 
     </div>
     
+    <div id="modalBienvenida" class="modal-contenedor">
+        <div class="modal-contenido">
+            <span class="cerrar-modal" data-modal="modalBienvenida">&times;</span>
+            <h2 style="color: #79c0ff; border-bottom: 2px solid #444; padding-bottom: 10px;">👋 ¡Bienvenido a DARK SIDE!</h2>
+            <p>Gracias por visitar nuestro menú de juegos y contenido.</p>
+            <p>Aquí encontrarás:</p>
+            <ul>
+                <li>🎮 Juegos de PC y Celular.</li>
+                <li>🕹️ Roms de PSP para PPSSPP.</li>
+                <li>🔗 Enlaces directos y secundarios.</li>
+            </ul>
+            <p style="text-align: center; margin-top: 20px; color: #ccc;">¡Selecciona una categoría y explora el contenido!</p>
+        </div>
+    </div>
+
+    <div id="modalDetalle" class="modal-contenedor">
+        <div class="modal-contenido">
+            <span class="cerrar-modal" data-modal="modalDetalle">&times;</span>
+            <h2 id="detalleTitulo" style="color: #ffcc00; border-bottom: 2px solid #444; padding-bottom: 10px;">Título del Juego</h2>
+            <div id="detalleCuerpo">
+                
+                <p><strong>Descripción:</strong> <span id="detalleDescripcion"></span></p>
+                <p><strong>Tipo:</strong> <span id="detalleTipo">PC/Celular/PSP</span></p>
+                <p><strong>Estado:</strong> <span id="detalleEtiquetas">NUEVO, PORTABLE</span></p>
+                <p style="margin-top: 15px;">**Para descargar, regresa al menú principal y haz clic en la línea del juego.**</p>
+            </div>
+            
+            <a href="#" id="botonReportar" target="_blank">
+                <i class="fas fa-exclamation-triangle"></i> REPORTAR LINK CAÍDO
+            </a>
+            <p style="text-align: center; margin-top: 25px;">¿Listo para jugar?</p>
+        </div>
+    </div>
+
+    
     <script>
         
         const buscador = document.getElementById('buscadorMenu');
@@ -433,84 +665,91 @@
         const tituloSeccion = document.getElementById('tituloSeccion');
         const botonDescarga = document.getElementById('botonDescarga');
         const botonSecundario = document.getElementById('botonSecundario');
+        const botonReportar = document.getElementById('botonReportar'); 
+
         
+        // Variables para los modales
+        const modalBienvenida = document.getElementById('modalBienvenida');
+        const modalDetalle = document.getElementById('modalDetalle');
+        const cerradores = document.querySelectorAll('.cerrar-modal');
+
         
         let elementosListaActiva = []; 
 
-     
-        function ordenarContenidoAlfabeticamente(idContenedor) {
-            const seccion = document.getElementById(idContenedor);
-            const ul = seccion ? seccion.querySelector('.lista-opciones') : null;
-            if (!ul) return;
-
-           
-            let items = Array.from(ul.children);
-
-           
-            items.sort((a, b) => {
-                
-                const textA = a.querySelector('a').textContent.trim().toUpperCase();
-                const textB = b.querySelector('a').textContent.trim().toUpperCase();
-
-                if (textA < textB) {
-                    return -1;
-                }
-                if (textA > textB) {
-                    return 1;  
-                }
-                return 0;
-            });
-
-            
-            items.forEach(item => ul.appendChild(item));
+        // Funciones auxiliares para modales
+        function abrirModal(modalElement) {
+            if (modalElement) {
+                modalElement.style.display = 'block';
+            }
         }
 
-       
-        ordenarContenidoAlfabeticamente('juegos-pc');
-        ordenarContenidoAlfabeticamente('juegos-celular');
-        ordenarContenidoAlfabeticamente('programas');
-
-
+        function cerrarModal(modalElement) {
+            if (modalElement) {
+                modalElement.style.display = 'none';
+            }
+        }
+        
+        // Función para inicializar los botones de acción
         function inicializarBotones() {
             if (botonDescarga) {
                 botonDescarga.href = '#';
-                botonDescarga.style.pointerEvents = 'none';
-                botonDescarga.style.opacity = '0.5';
                 botonDescarga.innerHTML = 'SELECCIONA UNA OPCIÓN';
+                botonDescarga.style.pointerEvents = 'none'; 
+                botonDescarga.style.opacity = '0.7';
             }
             if (botonSecundario) {
                 botonSecundario.href = '#';
+                botonSecundario.innerHTML = 'Opción';
                 botonSecundario.style.pointerEvents = 'none';
-                botonSecundario.style.opacity = '0.5';
-                botonSecundario.innerHTML = 'Opción'; 
+                botonSecundario.style.opacity = '0.7';
             }
+            
+            // Quitar selección a todos al cambiar de categoría
+            document.querySelectorAll('.lista-opciones li').forEach(li => li.classList.remove('seleccionado'));
         }
-        inicializarBotones();
 
+        // --- FUNCIÓN 1: Ordenar los elementos alfabéticamente ---
+        function ordenarAlfabeticamente(ulElement) {
+            if (!ulElement) return;
 
-        function manejarSeleccion(evento) {
-            const elementoSeleccionado = evento.currentTarget;
-            
-            
+            // Obtener todos los <li> como un array
+            let items = Array.from(ulElement.querySelectorAll('li'));
+
+            // Ordenar el array
+            items.sort((a, b) => {
+                // Obtener el texto del <a>, ignorando el <i> y las etiquetas
+                const textoA = a.querySelector('a') ? a.querySelector('a').textContent.trim().toLowerCase() : '';
+                const textoB = b.querySelector('a') ? b.querySelector('a').textContent.trim().toLowerCase() : '';
+
+                if (textoA < textoB) return -1;
+                if (textoA > textoB) return 1;
+                return 0;
+            });
+
+            // Reinsertar los elementos <li> ordenados en el <ul>
+            items.forEach(item => {
+                ulElement.appendChild(item);
+            });
+        }
+        
+        // --- FUNCIÓN 2: Actualiza el estado de los botones ---
+        function actualizarBotones(elementoSeleccionado) {
+            // Quitar selección a todos
             elementosListaActiva.forEach(li => li.classList.remove('seleccionado'));
-
-            
+            // Poner selección al actual
             elementoSeleccionado.classList.add('seleccionado');
 
-        
             const linkPrincipal = elementoSeleccionado.getAttribute('data-link'); 
             const linkSecundario = elementoSeleccionado.getAttribute('data-link-secundario'); 
             const textoPrincipal = elementoSeleccionado.getAttribute('data-boton-principal');
             const textoSecundario = elementoSeleccionado.getAttribute('data-boton-secundario');
 
-        
             if (botonDescarga && linkPrincipal && textoPrincipal) {
                 botonDescarga.href = linkPrincipal; 
                 botonDescarga.innerHTML = textoPrincipal; 
                 botonDescarga.style.pointerEvents = '';
                 botonDescarga.style.opacity = '1';
-            }
-
+            } else { inicializarBotones(); }
             
             if (botonSecundario && linkSecundario && textoSecundario) {
                 botonSecundario.href = linkSecundario; 
@@ -518,7 +757,6 @@
                 botonSecundario.style.pointerEvents = '';
                 botonSecundario.style.opacity = '1';
             } else if (botonSecundario) {
-
                 botonSecundario.href = '#'; 
                 botonSecundario.innerHTML = 'Opción No Disp.';
                 botonSecundario.style.pointerEvents = 'none'; 
@@ -526,99 +764,184 @@
             }
         }
 
-
-        
-        function filtrarMenu() {
+        // --- FUNCIÓN 3: Maneja la selección del <li> ---
+        function manejarSeleccionSimple(evento) {
+            // Ignora si el clic es en el icono o el nombre, que tienen la función de abrir el modal
+            if (evento.target.tagName === 'I' || evento.target.tagName === 'A') return;
             
-            if (!elementosListaActiva || elementosListaActiva.length === 0) return;
-            
-            let filtro = buscador.value.toUpperCase();
-            
-            elementosListaActiva.forEach(elementoLi => {
-                let enlace = elementoLi.querySelector('a');
-                let texto = enlace ? (enlace.textContent || enlace.innerText) : "";
-                
-                if (texto.toUpperCase().indexOf(filtro) > -1) {
-                    elementoLi.style.display = "";
-                } else {
-                    elementoLi.style.display = "none";
-                }
-            });
-
-            
-            if (buscador.value.length > 0) {
-                elementosListaActiva.forEach(li => li.classList.remove('seleccionado'));
-                inicializarBotones();
-            }
-        }
-        
-        if (buscador) {
-            buscador.addEventListener('keyup', filtrarMenu);
-        }
-
-
-        
-        
-        function asignarEventosListaActiva() {
-            
-            const seccionActiva = document.querySelector('.opciones-seccion.activo');
-            if (seccionActiva) {
-                const listaOpcionesActiva = seccionActiva.querySelector('.lista-opciones'); 
-                elementosListaActiva = Array.from(listaOpcionesActiva.getElementsByTagName('li'));
-            } else {
-                elementosListaActiva = [];
-            }
-
-            
-            elementosListaActiva.forEach(li => {
-                li.onclick = manejarSeleccion;
-                li.classList.remove('seleccionado');
-                li.style.display = ""; 
-            });
-        }
-
-
-        function cambiarSeccion(evento) {
             const elementoSeleccionado = evento.currentTarget;
-            const targetId = elementoSeleccionado.getAttribute('data-target');
+            actualizarBotones(elementoSeleccionado);
+        }
+
+
+        // --- FUNCIÓN 4: Modal de Detalle (Abre al hacer click en el ICONO o el NOMBRE) ---
+        function mostrarDetalleJuego(evento) {
+            
+            // Detiene la propagación y el comportamiento por defecto del <i> o <a>
+            evento.stopPropagation(); 
+            evento.preventDefault(); 
+            
+            // Buscamos el <li> padre desde el elemento clickeado (<i> o <a>)
+            const elementoLi = evento.target.closest('li');
+            if (!elementoLi) return; 
+
+            // 1. ACTUALIZAR BOTONES (para que el elemento se marque como seleccionado)
+            actualizarBotones(elementoLi);
+            
+            // 2. LLENAR Y ABRIR MODAL
+            const tituloJuego = elementoLi.querySelector('a').textContent.trim();
+            const etiquetas = Array.from(elementoLi.querySelectorAll('.etiqueta')).map(e => e.textContent).join(', ');
+            
+            // --> CAMBIO APLICADO: Obtener la descripción del atributo data-descripcion
+            const descripcionJuego = elementoLi.getAttribute('data-descripcion') || 'No se ha proporcionado una descripción para este juego.';
+            
+            const seccionActiva = elementoLi.closest('.opciones-seccion');
+            let tipoJuego = "Juego/ROM";
+            if (seccionActiva.id === 'juegos-pc') tipoJuego = "PC Game";
+            else if (seccionActiva.id === 'juegos-celular') tipoJuego = "Móvil (APK)";
+            else if (seccionActiva.id === 'programas') tipoJuego = "PSP ROM (PPSSPP)";
+
+            // Llenar el Modal de Detalle
+            document.getElementById('detalleTitulo').textContent = tituloJuego;
+            document.getElementById('detalleTipo').textContent = tipoJuego;
+            document.getElementById('detalleEtiquetas').textContent = etiquetas || 'Ninguna';
+            document.getElementById('detalleDescripcion').textContent = descripcionJuego; // <-- Usa la nueva descripción
             
             
+            // 3. CONFIGURAR BOTÓN DE REPORTE
+            if (botonReportar) {
+                const asunto = encodeURIComponent(`REPORTAR LINK CAÍDO: ${tituloJuego}`);
+                const cuerpo = encodeURIComponent(`Hola, acabo de encontrar un link caído para el juego "${tituloJuego}" en la sección de ${tipoJuego}. Por favor, revísenlo. ¡Gracias!`);
+                const mailtoLink = `mailto:darksidegames500@gmail.com?subject=${asunto}&body=${cuerpo}`;
+                
+                botonReportar.href = mailtoLink;
+            }
+            
+            abrirModal(modalDetalle);
+        }
+        
+        
+        // --- FUNCIÓN 5: Maneja el cambio de categoría ---
+        function cambiarCategoria(targetId, titulo) {
+            // 1. Ocultar todas las secciones y categorías
             document.querySelectorAll('.opciones-seccion').forEach(seccion => {
-                seccion.classList.remove('activo');
                 seccion.classList.add('oculto');
+                seccion.classList.remove('activo');
             });
             document.querySelectorAll('.lista-lateral li').forEach(li => {
                 li.classList.remove('seleccionado-lateral');
             });
 
+            // 2. Mostrar la sección activa y marcar la categoría
+            const seccionActiva = document.getElementById(targetId);
+            seccionActiva.classList.remove('oculto');
+            seccionActiva.classList.add('activo');
             
-            const seccionDestino = document.getElementById(targetId);
-            if (seccionDestino) {
-                seccionDestino.classList.remove('oculto');
-                seccionDestino.classList.add('activo');
-                elementoSeleccionado.classList.add('seleccionado-lateral');
-                
-                tituloSeccion.textContent = elementoSeleccionado.textContent;
-                
-                buscador.value = '';
-                inicializarBotones(); 
-                
-                
-                asignarEventosListaActiva(); 
-            }
+            document.querySelector(`[data-target="${targetId}"]`).classList.add('seleccionado-lateral');
+
+            // 3. ORDENAR ALFABÉTICAMENTE LOS ELEMENTOS DE LA SECCIÓN ACTIVA
+            ordenarAlfabeticamente(seccionActiva.querySelector('.lista-opciones'));
+
+            // 4. Actualizar el título principal
+            tituloSeccion.textContent = titulo;
+
+            // 5. Reiniciar el estado de la lista y botones
+            asignarEventosListaActiva();
+            inicializarBotones();
+            buscador.value = ''; // Limpia el buscador al cambiar de categoría
+            manejarBusqueda(); // Aplica la búsqueda con un valor vacío para resetear
+
         }
 
 
-        
-        
-        if (listaCategorias) {
-            listaCategorias.querySelectorAll('li').forEach(li => {
-                li.addEventListener('click', cambiarSeccion);
+        // --- FUNCIÓN 6: Asigna eventos al cambiar de categoría y al cargar ---
+        function asignarEventosListaActiva() {
+            // Obtiene los elementos <li> de la sección activa actual
+            const seccionActiva = document.querySelector('.opciones-seccion.activo');
+            if (!seccionActiva) return;
+            
+            // Limpia los eventos anteriores
+            elementosListaActiva.forEach(li => {
+                li.onclick = null;
+                if (li.querySelector('i')) li.querySelector('i').onclick = null;
+                if (li.querySelector('a')) li.querySelector('a').onclick = null;
+            });
+            
+            // Asigna nuevos eventos a la lista activa
+            elementosListaActiva = Array.from(seccionActiva.querySelectorAll('.lista-opciones li'));
+
+            elementosListaActiva.forEach(li => {
+                li.onclick = manejarSeleccionSimple;
+                // Añadir el evento para abrir el modal (solo en el <i> y <a>)
+                if (li.querySelector('i')) li.querySelector('i').onclick = mostrarDetalleJuego;
+                if (li.querySelector('a')) li.querySelector('a').onclick = mostrarDetalleJuego;
             });
         }
 
+        // --- FUNCIÓN 7: Maneja la búsqueda ---
+        function manejarBusqueda() {
+            const termino = buscador.value.toLowerCase().trim();
+
+            // Mostrar u ocultar elementos de la lista activa
+            elementosListaActiva.forEach(li => {
+                const texto = li.textContent.toLowerCase();
+                if (texto.includes(termino)) {
+                    li.style.display = 'flex'; // Usamos 'flex' porque así está definido en el CSS
+                } else {
+                    li.style.display = 'none';
+                    li.classList.remove('seleccionado'); // Quitar selección si se oculta
+                }
+            });
+            
+            // Re-inicializar botones si el elemento seleccionado actualmente está oculto por la búsqueda
+            if (!document.querySelector('.lista-opciones li.seleccionado')) {
+                inicializarBotones();
+            }
+        }
+
+        // Eventos para cerrar los modales
+        cerradores.forEach(span => {
+            span.onclick = function() {
+                const modalId = this.getAttribute('data-modal');
+                cerrarModal(document.getElementById(modalId));
+            }
+        });
+
+        window.onclick = function(event) {
+            if (event.target == modalBienvenida) {
+                cerrarModal(modalBienvenida);
+            }
+            if (event.target == modalDetalle) {
+                cerrarModal(modalDetalle);
+            }
+        }
+
+        // 8. EVENTOS PRINCIPALES DE CARGA Y CATEGORÍAS
         
-        asignarEventosListaActiva(); 
+        // Evento para cambiar de categoría
+        listaCategorias.querySelectorAll('li').forEach(li => {
+            li.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                const titulo = this.textContent.trim();
+                cambiarCategoria(target, titulo);
+            });
+        });
+
+        // Evento para la búsqueda
+        buscador.addEventListener('keyup', manejarBusqueda);
+        buscador.addEventListener('change', manejarBusqueda);
+        
+        // 9. Inicialización al cargar la ventana
+        window.onload = function() {
+            // Al cargar la página, ordena la categoría inicial (Juegos de PC)
+            const categoriaInicialId = document.querySelector('.lista-lateral .seleccionado-lateral').getAttribute('data-target');
+            ordenarAlfabeticamente(document.getElementById(categoriaInicialId).querySelector('.lista-opciones'));
+
+            abrirModal(modalBienvenida);
+            asignarEventosListaActiva();
+            inicializarBotones(); 
+        }
     </script>
+
 </body>
 </html>
